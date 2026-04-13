@@ -1,1 +1,368 @@
-{"updatedAt":"2026-04-13T14:17:24.169Z","createdAt":"2026-04-07T12:24:50.997Z","id":"Zc85wyQAzpZsed9i","name":"Trello- Criar Card Aprendiz","active":true,"isArchived":false,"nodes":[{"parameters":{"jsCode":"const input = $json;\n\nconst lead = {\n  nome: input.nome || \"\",\n  email: input.email || \"\",\n  cidade: input.cidade || \"\",\n  pais: input.pais || \"\",\n  idade: input.idade || \"\"\n};\n\nif (!lead.email) {\n}\n\nreturn [\n  {\n    json: lead\n  }\n];"},"type":"n8n-nodes-base.code","typeVersion":2,"position":[-496,-192],"id":"7f4cf6bb-36e3-400b-8083-1bdb74854493","name":"Formaliza dados"},{"parameters":{"promptType":"define","text":" o e-mail tem que rolar um disparo para eu saber oque tem no dia, me avise sempre um dia seguinte","options":{}},"type":"@n8n/n8n-nodes-langchain.agent","typeVersion":3.1,"position":[-832,-192],"id":"51aa0fef-0a29-4cdd-8be6-2c470ea3e2f7","name":"AI Agent"},{"parameters":{"model":{"__rl":true,"mode":"list","value":"gpt-5-mini"},"builtInTools":{},"options":{}},"type":"@n8n/n8n-nodes-langchain.lmChatOpenAi","typeVersion":1.3,"position":[-928,-16],"id":"0e50abff-e2eb-4ed1-bf70-668b61be58e3","name":"OpenAI Chat Model","credentials":{"openAiApi":{"id":"g0QudvJsKLN1lVKi","name":"n8n free OpenAI API credits"}}},{"parameters":{"sessionIdType":"customKey","sessionKey":"={{ $json.threadId }}"},"type":"@n8n/n8n-nodes-langchain.memoryBufferWindow","typeVersion":1.3,"position":[-768,-16],"id":"329cec87-9d20-4da7-97ea-cc6244c4fa69","name":"Simple Memory"},{"parameters":{"url":"https://vault.bitwarden.com/#/vault","options":{}},"type":"n8n-nodes-base.httpRequestTool","typeVersion":4.4,"position":[-592,-32],"id":"5cd202e0-0bf7-4f3a-8d7f-e3f02aebcfa1","name":"HTTP Request"},{"parameters":{"sendTo":"giovanni.neves@ciadeestagios.com.br","subject":"Dados Giovanni ","message":"={{ $('Formaliza dados').item.json.nome }}{{ $('Formaliza dados').item.json.email }}{{ $('Formaliza dados').item.json.idade }}","options":{}},"type":"n8n-nodes-base.gmail","typeVersion":2.2,"position":[-144,-192],"id":"27422a3a-bca7-40e1-b12a-b5ef678d1742","name":"Send a message","webhookId":"7479324d-b4c7-468c-88fc-c7feeaa8b6cc","credentials":{"gmailOAuth2":{"id":"WnGaTxXMX2gvrMPJ","name":"Giovanni"}}},{"parameters":{"assignments":{"assignments":[{"id":"56f0f15d-76ff-4aa9-ab58-54a209c528dc","name":"nome","value":"={{ $json.nome }}","type":"string"},{"id":"91405e9b-b5fd-4d29-9d7e-535e751b9f3d","name":"email","value":"={{ $json.email }}","type":"string"},{"id":"855cbf9a-b5d0-49e5-9aec-8b265693b586","name":"cidade","value":"={{ $json.cidade }}","type":"string"},{"id":"eaf64860-d412-4ea9-8993-574deb98b91f","name":"pais","value":"={{ $json.pais }}","type":"string"},{"id":"7919a411-352e-424d-8c76-d359af25d44f","name":"idade","value":"={{ $json.idade }}","type":"string"}]},"includeOtherFields":true,"options":{}},"type":"n8n-nodes-base.set","typeVersion":3.4,"position":[-336,-192],"id":"2dca5419-3a09-4e81-a3e5-f4576d830445","name":"Edit Fields"},{"parameters":{"pollTimes":{"item":[{},{}]},"filters":{}},"type":"n8n-nodes-base.gmailTrigger","typeVersion":1.3,"position":[-1072,-192],"id":"4037824a-bb92-4672-9499-38a9a2a1a68c","name":"Gmail Trigger","credentials":{"gmailOAuth2":{"id":"WnGaTxXMX2gvrMPJ","name":"Giovanni"}}},{"parameters":{"workflowId":{"__rl":true,"value":"NhaHePvU9oxYB5g2","mode":"list","cachedResultName":"My Sub-Workflow 1","cachedResultUrl":"/workflow/NhaHePvU9oxYB5g2"},"workflowInputs":{"mappingMode":"defineBelow","value":{},"matchingColumns":[],"schema":[],"attemptToConvertTypes":false,"convertFieldsToString":false}},"type":"@n8n/n8n-nodes-langchain.toolWorkflow","typeVersion":2.2,"position":[-240,48],"id":"fbb7e66c-b01c-45ce-92cf-b8e5698af860","name":"Call n8n Workflow Tool"}],"connections":{"Formaliza dados":{"main":[[{"node":"Edit Fields","type":"main","index":0}]]},"OpenAI Chat Model":{"ai_languageModel":[[{"node":"AI Agent","type":"ai_languageModel","index":0}]]},"Simple Memory":{"ai_memory":[[{"node":"AI Agent","type":"ai_memory","index":0}]]},"AI Agent":{"main":[[{"node":"Formaliza dados","type":"main","index":0}]]},"HTTP Request":{"ai_tool":[[{"node":"AI Agent","type":"ai_tool","index":0}]]},"Edit Fields":{"main":[[{"node":"Send a message","type":"main","index":0}]]},"Gmail Trigger":{"main":[[{"node":"AI Agent","type":"main","index":0}]]},"Call n8n Workflow Tool":{"ai_tool":[[{"node":"AI Agent","type":"ai_tool","index":0}]]}},"settings":{"executionOrder":"v1","binaryMode":"separate"},"staticData":{"node:Gmail Trigger":{"Gmail Trigger":{"lastTimeChecked":1776083138,"possibleDuplicates":["19d86cdf8f498373","19d86cd635474b87","19d86c02284c586b","19d850c22f945206"]}}},"meta":{"templateCredsSetupCompleted":true},"versionId":"a5c9d781-f3b2-48f4-be8f-0e3bbdb7f9c0","activeVersionId":"a5c9d781-f3b2-48f4-be8f-0e3bbdb7f9c0","triggerCount":1,"shared":[{"updatedAt":"2026-04-07T12:24:51.000Z","createdAt":"2026-04-07T12:24:51.000Z","role":"workflow:owner","workflowId":"Zc85wyQAzpZsed9i","projectId":"CQxN5NpA34kUdff4"}],"activeVersion":{"updatedAt":"2026-04-13T14:17:15.000Z","createdAt":"2026-04-09T14:36:12.387Z","versionId":"a5c9d781-f3b2-48f4-be8f-0e3bbdb7f9c0","workflowId":"Zc85wyQAzpZsed9i","nodes":[{"parameters":{"jsCode":"const input = $json;\n\nconst lead = {\n  nome: input.nome || \"\",\n  email: input.email || \"\",\n  cidade: input.cidade || \"\",\n  pais: input.pais || \"\",\n  idade: input.idade || \"\"\n};\n\nif (!lead.email) {\n}\n\nreturn [\n  {\n    json: lead\n  }\n];"},"type":"n8n-nodes-base.code","typeVersion":2,"position":[-496,-192],"id":"7f4cf6bb-36e3-400b-8083-1bdb74854493","name":"Formaliza dados"}],"name":"Version a5c9d781","description":"","autosaved":true},"tags":[{"updatedAt":"2026-04-13T12:19:50.067Z","createdAt":"2026-04-13T12:19:50.067Z","id":"szU0LBVGNjSplCzV","name":"Giovanni"}]}
+{
+  "updatedAt": "2026-04-13T14:17:24.169Z",
+  "createdAt": "2026-04-07T12:24:50.997Z",
+  "id": "Zc85wyQAzpZsed9i",
+  "name": "Trello- Criar Card Aprendiz",
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const input = $json;\n\nconst lead = {\n  nome: input.nome || \"\",\n  email: input.email || \"\",\n  cidade: input.cidade || \"\",\n  pais: input.pais || \"\",\n  idade: input.idade || \"\"\n};\n\nif (!lead.email) {\n}\n\nreturn [\n  {\n    json: lead\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -496,
+        -192
+      ],
+      "id": "7f4cf6bb-36e3-400b-8083-1bdb74854493",
+      "name": "Formaliza dados"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": " o e-mail tem que rolar um disparo para eu saber oque tem no dia, me avise sempre um dia seguinte",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -832,
+        -192
+      ],
+      "id": "51aa0fef-0a29-4cdd-8be6-2c470ea3e2f7",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -928,
+        -16
+      ],
+      "id": "0e50abff-e2eb-4ed1-bf70-668b61be58e3",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "g0QudvJsKLN1lVKi",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.threadId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -768,
+        -16
+      ],
+      "id": "329cec87-9d20-4da7-97ea-cc6244c4fa69",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "url": "https://vault.bitwarden.com/#/vault",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.4,
+      "position": [
+        -592,
+        -32
+      ],
+      "id": "5cd202e0-0bf7-4f3a-8d7f-e3f02aebcfa1",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "sendTo": "giovanni.neves@ciadeestagios.com.br",
+        "subject": "Dados Giovanni ",
+        "message": "={{ $('Formaliza dados').item.json.nome }}{{ $('Formaliza dados').item.json.email }}{{ $('Formaliza dados').item.json.idade }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -144,
+        -192
+      ],
+      "id": "27422a3a-bca7-40e1-b12a-b5ef678d1742",
+      "name": "Send a message",
+      "webhookId": "7479324d-b4c7-468c-88fc-c7feeaa8b6cc",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "WnGaTxXMX2gvrMPJ",
+          "name": "Giovanni"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "56f0f15d-76ff-4aa9-ab58-54a209c528dc",
+              "name": "nome",
+              "value": "={{ $json.nome }}",
+              "type": "string"
+            },
+            {
+              "id": "91405e9b-b5fd-4d29-9d7e-535e751b9f3d",
+              "name": "email",
+              "value": "={{ $json.email }}",
+              "type": "string"
+            },
+            {
+              "id": "855cbf9a-b5d0-49e5-9aec-8b265693b586",
+              "name": "cidade",
+              "value": "={{ $json.cidade }}",
+              "type": "string"
+            },
+            {
+              "id": "eaf64860-d412-4ea9-8993-574deb98b91f",
+              "name": "pais",
+              "value": "={{ $json.pais }}",
+              "type": "string"
+            },
+            {
+              "id": "7919a411-352e-424d-8c76-d359af25d44f",
+              "name": "idade",
+              "value": "={{ $json.idade }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -336,
+        -192
+      ],
+      "id": "2dca5419-3a09-4e81-a3e5-f4576d830445",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {},
+            {}
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -1072,
+        -192
+      ],
+      "id": "4037824a-bb92-4672-9499-38a9a2a1a68c",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "WnGaTxXMX2gvrMPJ",
+          "name": "Giovanni"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "NhaHePvU9oxYB5g2",
+          "mode": "list",
+          "cachedResultName": "My Sub-Workflow 1",
+          "cachedResultUrl": "/workflow/NhaHePvU9oxYB5g2"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -240,
+        48
+      ],
+      "id": "fbb7e66c-b01c-45ce-92cf-b8e5698af860",
+      "name": "Call n8n Workflow Tool"
+    }
+  ],
+  "connections": {
+    "Formaliza dados": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Formaliza dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": {
+    "node:Gmail Trigger": {
+      "Gmail Trigger": {
+        "lastTimeChecked": 1776083138,
+        "possibleDuplicates": [
+          "19d86cdf8f498373",
+          "19d86cd635474b87",
+          "19d86c02284c586b",
+          "19d850c22f945206"
+        ]
+      }
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "versionId": "a5c9d781-f3b2-48f4-be8f-0e3bbdb7f9c0",
+  "activeVersionId": "a5c9d781-f3b2-48f4-be8f-0e3bbdb7f9c0",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2026-04-07T12:24:51.000Z",
+      "createdAt": "2026-04-07T12:24:51.000Z",
+      "role": "workflow:owner",
+      "workflowId": "Zc85wyQAzpZsed9i",
+      "projectId": "CQxN5NpA34kUdff4"
+    }
+  ],
+  "activeVersion": {
+    "updatedAt": "2026-04-13T14:17:15.000Z",
+    "createdAt": "2026-04-09T14:36:12.387Z",
+    "versionId": "a5c9d781-f3b2-48f4-be8f-0e3bbdb7f9c0",
+    "workflowId": "Zc85wyQAzpZsed9i",
+    "nodes": [
+      {
+        "parameters": {
+          "jsCode": "const input = $json;\n\nconst lead = {\n  nome: input.nome || \"\",\n  email: input.email || \"\",\n  cidade: input.cidade || \"\",\n  pais: input.pais || \"\",\n  idade: input.idade || \"\"\n};\n\nif (!lead.email) {\n}\n\nreturn [\n  {\n    json: lead\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -496,
+        -192
+      ],
+      "id": "7f4cf6bb-36e3-400b-8083-1bdb74854493",
+      "name": "Formaliza dados"
+      }
+    ],
+    "name": "Version a5c9d781",
+    "description": "",
+    "autosaved": true
+  },
+  "tags": [
+    {
+      "updatedAt": "2026-04-13T12:19:50.067Z",
+      "createdAt": "2026-04-13T12:19:50.067Z",
+      "id": "szU0LBVGNjSplCzV",
+      "name": "Giovanni"
+    }
+  ]
+}
