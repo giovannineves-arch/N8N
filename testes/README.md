@@ -1,1 +1,1 @@
-# Catálogo de Automações - Testes
+# Catálogo de Automações - Testes\n\nLista de automações de teste presentes no repositório:\n\n- testes/trello-criar-card-aprendiz/ — Trello- Criar Card Aprendiz (ID: Zc85wyQAzpZsed9i). Gatilho por Gmail que extrai dados do e-mail, normaliza em um objeto 'lead', utiliza um agente de linguagem para processamento adicional e envia notificação via Gmail. (Resumo: cria e prepara dados para criação de card/Trello; aciona sub-workflow quando aplicável.)\n
